@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import PlanTrip from "./components/PlanTrip";
+import Form from "./pages/Form";
+// import Map from "./components/Map";
+import MapComponent from "./components/Map";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <h1>Your AI Trip Planner</h1>
+      <PlanTrip /> */}
+      <Form />
+      {/* <div style={{ width: "100vw", height: "100vh" }}>
+        <MapComponent /> */}
+      {/* </div> */}
     </div>
   );
 }
