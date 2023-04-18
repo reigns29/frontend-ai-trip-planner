@@ -1,20 +1,27 @@
 import "./App.css";
-import PlanTrip from "./components/PlanTrip";
 import Form from "./pages/Form";
-// import Map from "./components/Map";
-import MapComponent from "./components/Map";
+import { BrowserRouter , Routes , Route} from 'react-router-dom';
+import Layout from "./components/Layout"
+import Login from "./pages/Login"
+import Signup from "./pages/Signup"
 
 function App() {
   return (
     <div className="App">
-      {/* <h1>Your AI Trip Planner</h1>
-      <PlanTrip /> */}
-      <Form />
-      {/* <div style={{ width: "100vw", height: "100vh" }}>
-        <MapComponent /> */}
-      {/* </div> */}
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Form />} />
+          <Route path = "/signup" element = {<Signup />} />
+          <Route path = "/login" element = {<Login />} />
+          {/*           <Route path="*" element={<NoPage />} /> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
     </div>
+    
   );
 }
-
+//
 export default App;
+//

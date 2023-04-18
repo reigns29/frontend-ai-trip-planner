@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import {
-  Card,
-  CardMedia,
-  CardContent,
   TextField,
   Button,
   Grid,
@@ -10,8 +7,6 @@ import {
   createTheme,
   ThemeProvider,
   Typography,
-  Divider,
-  Box,
 } from "@mui/material";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -21,11 +16,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import travelmobile from "../images/travelmobile.jpg";
-import punjabimage from "../images/punjabimage.jpg";
-import PlaceIcon from "@mui/icons-material/Place";
+import LocationCard from "../components/Card";
+// import punjabimage from "../images/punjabimage.jpg";
+
+// import MapComponent from "../components/Map";
 import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
-
 
 // theme for form
 const theme = createTheme({
@@ -106,7 +102,9 @@ const Form = () => {
           currentLocation,
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
+          // console.log(res.data[0].coordinates[0]);
+          // console.log(typeof res.data[0].coordinates[0]);
           setData(res.data);
           // console.log(data);
         })
@@ -269,73 +267,7 @@ const Form = () => {
             data.map((value) => {
               return (
                 <div>
-                  <Card
-                    style={{
-                      width: "90%",
-                      marginTop: "80px",
-                      backgroundColor: "rgb(82 213 255 / 66%)",
-                    }}
-                  >
-                    {/* <CardMedia component="img" height="210" image = {punjabimage}/> */}
-                    <CardContent>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="div"
-                        fontWeight="bold"
-                      >
-                        {value.name}
-                      </Typography>
-                      <Typography variant="subtitle1" color="text.secondary">
-                        <Box display="flex" alignItems="center">
-                          <PlaceIcon sx={{ mr: 1 }} />
-                          {value.location}
-                        </Box>
-                      </Typography>
-                      <Divider sx={{ my: 2 }} />
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        fontWeight={600}
-                      >
-                        {value.description}
-                      </Typography>
-                      <Divider sx={{ my: 2 }} />
-                      <Grid
-                        container
-                        spacing={2}
-                        justifyContent="space-between"
-                      >
-                        <Grid item>
-                          <Typography
-                            variant="subtitle1"
-                            color="text.secondary"
-                            fontWeight="bolder"
-                          >
-                            {value.price}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Button variant="contained" color="primary">
-                            Book Now
-                          </Button>
-                        </Grid>
-                      </Grid>
-                      <Divider sx={{ my: 2 }} />
-                      {/* <Typography variant="body1" gutterBottom>
-              Famous Places to Visit
-            </Typography> */}
-                      {/* <ul>
-              {placesToVisit.map((place) => (
-                <li key={place}>{place}</li>
-              ))}
-              <li>Amritsar</li>
-              <li>Amritsar</li>
-              <li>Amritsar</li>
-              <li>Amritsar</li>
-            </ul> */}
-                    </CardContent>
-                  </Card>
+                  <LocationCard name = {value.name} location = {value.location} description = {value.description} price = {value.price} coordinates = {value.coordinates} />
                 </div>
               );
             })
