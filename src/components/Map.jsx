@@ -70,15 +70,3 @@ const MapComponent = ({latitude, longitude}) => {
   );
         };
 export default MapComponent;
-
-// import 'mapbox-gl/dist/mapbox-gl.css';
-
-// import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
-
-// mapboxgl.accessToken = 'pk.eyJ1IjoiYWJjNjkiLCJhIjoiY2xnaTFodzZkMHI5MzNlcGg1a3N5cm5hcSJ9.SPylTKEJGxTTNdd0PW0m7A';
-// const map = new mapboxgl.Map({
-//     container: 'map', // container ID
-//     style: 'mapbox://styles/mapbox/streets-v12', // style URL
-//     center: [-74.5, 40], // starting position [lng, lat]
-//     zoom: 9, // starting zoom
-// });
