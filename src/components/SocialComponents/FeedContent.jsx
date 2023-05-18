@@ -18,11 +18,13 @@ import DoneIcon from "@mui/icons-material/Done";
 import SyncIcon from "@mui/icons-material/Sync";
 import { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
-const FeedContent = ({ loggedInUserData, searchedUserData }) => {
+const FeedContent = ({ loggedInuserData }) => {
   const [postData, setpostData] = useState([]);
   const [activateFollowButton, setactivateFollowButton] = useState(false);
   const [Isfollowing, setIsfollowing] = useState(false);
+  const {searchedUserData} = useSelector((store)=>store.user);
   // const [RequiredUserID, setRequiredUserID] = useState(loggedInUserData.id);
 
   console.log("feeduser", searchedUserData);
@@ -31,7 +33,7 @@ const FeedContent = ({ loggedInUserData, searchedUserData }) => {
       const response = await axios.get(
         process.env.REACT_APP_SERVER_URL +
           `/api/posts?where[userId][equals]=${
-            searchedUserData ? searchedUserData.id : loggedInUserData.id
+            searchedUserData ? searchedUserData.id : loggedInuserData.id
           }`,
         { withCredentials: true }
       );
@@ -63,8 +65,8 @@ const FeedContent = ({ loggedInUserData, searchedUserData }) => {
     console.log("followed");
   };
 
-  const unfollowUser = async ()=>{
-    console.log("unfollowed")
+  const unfollowUser = async () => {
+    console.log("unfollowed");
     try {
       const response = await axios.post(
         process.env.REACT_APP_SERVER_URL + `/api/follows/unfollow`,
@@ -76,7 +78,7 @@ const FeedContent = ({ loggedInUserData, searchedUserData }) => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const [likeChecked, setLikeChecked] = useState(() => {
     const initialMap = new Map();
@@ -139,15 +141,16 @@ const FeedContent = ({ loggedInUserData, searchedUserData }) => {
   };
 
   return (
-    <Box flex={3}>
+    <Box flex={3}  display = "flex" alignItems="center" justifyContent = "center">
       <Box
         display="flex"
         alignItems="center"
         justifyContent="center"
         flexDirection="column"
         mt="50px"
-        mr="20px"
+        // mr="20px"
         maxWidth="900px"
+        // border="2px solid black"
       >
         <Box>
           <Button onClick={loadPost} cursor="pointer">

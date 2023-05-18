@@ -17,14 +17,15 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useLogoutMutation } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { setrdkAuthenticated, setrdkloggedInUserData, setrdksearchUserData } from "../store/user/userSlice";
 
-const Navbar = ({
-  authenticated,
-  setAuthenticated,
-  setsearchedUserData,
-  setloggedInUserData,
-}) => {
+const Navbar = () => {
   const [anchorE1, setAnchorE1] = useState(null);
+  const [logout, {isLoading}] = useLogoutMutation();
+  const {isAuthenticated} = useSelector((store)=>store.user);
+  const dispatch = useDispatch();
 
   const handleMenu = (event) => {
     setAnchorE1(event.currentTarget);
@@ -55,21 +56,17 @@ const Navbar = ({
 
   const handleOnChange = (event, value) => {
     if (value) {
-      setsearchedUserData(value);
+      // setsearchedUserData(value);
+      dispatch(setrdksearchUserData(value));
     }
   };
 
   const handlelogout = async () => {
     try {
-      const response = await axios.post(
-        process.env.REACT_APP_SERVER_URL + `/api/users/logout`,
-        null,
-        { withCredentials: true }
-      );
-      console.log(response);
-      setAuthenticated(false);
-      setloggedInUserData({ user: null, tokens: null });
-      localStorage.removeItem("loggedInUserData");
+      logout();
+      dispatch(setrdkAuthenticated(false));
+      dispatch(setrdkloggedInUserData([]));
+      localStorage.removeItem("remeberUser");
       alert("Logout successfully");
     } catch (error) {
       console.error(error);
@@ -111,7 +108,7 @@ const Navbar = ({
                 Home
               </Link>
 
-              {authenticated ? (
+              {isAuthenticated ? (
                 <>
                   <Link
                     to="/Social"
@@ -190,7 +187,7 @@ const Navbar = ({
                 open={Boolean(anchorE1)}
                 onClose={handleClose}
               >
-                {authenticated
+                {isAuthenticated
                   ? [
                       <MenuItem key="logout" onClick={handlelogout}>
                         <Link

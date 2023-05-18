@@ -6,12 +6,13 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState} from "react";
-import signup from "../images/signupbg.jpg";
+import React, { useState, useRef} from "react";
+import signupimage from "../images/signupbg.jpg";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Link, Navigate } from "react-router-dom";
+import { useSignupMutation } from "../store";
 
 
 const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -33,7 +34,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const Signup = () => {
-  const [signupdata, setsignupdata] = useState(null);
+  // const [signupdata, setsignupdata] = useState(null);
+  const [signup] = useSignupMutation();
+
+  const usernameRef = useRef(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
 
   const formik = useFormik({
     initialValues: {
@@ -43,32 +50,31 @@ const Signup = () => {
       confirmPassword: "",
     },
     validationSchema,
-    onSubmit: async (values) => {
-      setsignupdata(values);
-      console.log(signupdata);
+    // onSubmit: async (values) => {
+    //   setsignupdata(values);
+    //   console.log(signupdata);
 
-      try {
-        const response = await axios.post(process.env.REACT_APP_SERVER_URL+'/api/users', {
-          email: values.email,
-          username: values.username,
-          password: values.password,
-        }, {withCredentials: true});
-        console.log(response);
-        <Navigate to="/login"/>
-      } catch (error) {
-        console.log("these " + error);
-      }
-      // const email = values.email;
-      // const username = values.username;
-      // const password = values.password
-      // signup({email, username, password})
-      //   .unwrap()
-      //   .then(()=>navigate("/login"))
-      //   .catch((error)=>{
-      //     console.log(error)
-      //   })
-    },
+    //   try {
+    //     const response = await axios.post(process.env.REACT_APP_SERVER_URL+'/api/users', {
+    //       email: values.email,
+    //       username: values.username,
+    //       password: values.password,
+    //     }, {withCredentials: true});
+    //     console.log(response);
+    //     <Navigate to="/login"/>
+    //   } catch (error) {
+    //     console.log("these " + error);
+    //   }
+    // },
   });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const username = usernameRef.current.value;
+    signup({ email, password, username });
+  };
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -76,7 +82,7 @@ const Signup = () => {
   return (
     <Box
       sx={{
-        backgroundImage: `url(${signup})`,
+        backgroundImage: `url(${signupimage})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundAttachment: "fixed",
@@ -88,7 +94,7 @@ const Signup = () => {
       height={{ xs: "85vh", sm: "87vh" }}
     >
       <form
-        onSubmit={formik.handleSubmit}
+        onSubmit={handleSubmit}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -106,6 +112,7 @@ const Signup = () => {
         </Typography>
         <TextField
           fullWidth
+          inputProps={{ref: usernameRef}}
           label="User Name"
           variant="outlined"
           size="small"
@@ -117,6 +124,7 @@ const Signup = () => {
 
         <TextField
           fullWidth
+          inputProps={{ref: emailRef}}
           label="Email"
           variant="outlined"
           size="small"
@@ -128,6 +136,7 @@ const Signup = () => {
 
         <TextField
           fullWidth
+          inputProps={{ref: passwordRef}}
           label="Password"
           variant="outlined"
           size="small"
@@ -139,6 +148,7 @@ const Signup = () => {
 
         <TextField
           fullWidth
+          inputProps={{ref: confirmPasswordRef}}
           label="Confirm Password"
           variant="outlined"
           size="small"

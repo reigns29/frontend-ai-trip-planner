@@ -5,7 +5,7 @@ import FeedContent from "../components/SocialComponents/FeedContent";
 import Sidebar from "../components/SocialComponents/Sidebar";
 import { useState } from "react";
 
-const Social = ({loggedInUserData, searchedUserData}) => {
+const Social = ({loggedInuserData}) => {
   const [mode, setMode] = useState("light");
   const darkTheme = createTheme({
     palette: {
@@ -35,7 +35,7 @@ const Social = ({loggedInUserData, searchedUserData}) => {
           >
             <Sidebar />
           </Box>
-          <FeedContent loggedInUserData = {loggedInUserData} searchedUserData = {searchedUserData} />
+          <FeedContent loggedInUserData = {loggedInuserData} />
           {/* <Rightbar /> */}
         </Stack>
         <AddPost />
