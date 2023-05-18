@@ -117,13 +117,14 @@ const Form = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <h1>Your AI Trip Planner</h1>
+      {/* <h1>Your AI Trip Planner</h1> */}
       <div
         style={{
           flexGrow: 1,
           backgroundImage: `url(${travelmobile})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
+          height: "100vh",
           // filter: 'brightness(0.8)',
           padding: "32px",
           display: "flex",
@@ -138,7 +139,7 @@ const Form = () => {
           alignItems="center"
           spacing={5}
           border="0px solid black"
-          mt="50px"
+          mt = {{xs: "-50px", sm: "50px"}}
         >
           <form
             style={{
